@@ -12,7 +12,7 @@ func ParseFlags(args []string) *flags {
 	flagMap := make(map[string]string)
 	for i, flag := range f {
 		if isFlag(flag) {
-			if isFlag(flag) {
+			if isFlag(args[i+1]) {
 				flagMap[flag] = ""
 			} else {
 				flagMap[flag] = args[i+1]
