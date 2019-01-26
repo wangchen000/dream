@@ -13,9 +13,9 @@ func ParseFlags(args []string) *flags {
 	for i, flag := range f {
 		if isFlag(flag) {
 			if isFlag(f[i+1]) {
-				flagMap[flag] = ""
+				flagMap[delPre(flag)] = ""
 			} else {
-				flagMap[flag] = f[i+1]
+				flagMap[delPre(flag)] = f[i+1]
 			}
 		}
 	}
@@ -35,8 +35,16 @@ func ParseFlags(args []string) *flags {
 
 func isFlag(s string) bool {
 	prefix := s[0:1]
-	if prefix == "-" || prefix == "--" {
+	if prefix == "-" {
 		return true
 	}
 	return false
+}
+
+func delPre(k string) string {
+	tk := k[1:]
+	if tk[0:1] == "-" {
+		return tk[1:]
+	}
+	return tk
 }
