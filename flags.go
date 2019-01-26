@@ -1,14 +1,16 @@
 package dream
 
+import "encoding/json"
+
 type flags struct {
 	ConfigPath string `json:"c"`
 }
 
 func ParseFlags(args []string) *flags {
 
-	flags := args[1:]
+	f := args[1:]
 	flagMap := make(map[string]string)
-	for i, flag := range flags {
+	for i, flag := range f {
 		if isFlag(flag) {
 			if isFlag(flag) {
 				flagMap[flag] = ""
@@ -17,7 +19,18 @@ func ParseFlags(args []string) *flags {
 			}
 		}
 	}
-		
+
+	tmp, err := json.Marshal(flagMap)
+	if err != nil {
+		panic(err)
+	}
+	result := new(flags)
+	err = json.Unmarshal(tmp, result)
+	if err != nil {
+		panic(err)
+	}
+
+	return result
 }
 
 func isFlag(s string) bool {
